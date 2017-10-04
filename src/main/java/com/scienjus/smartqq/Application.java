@@ -1,11 +1,15 @@
 package com.scienjus.smartqq;
 
-import com.scienjus.smartqq.callback.MessageCallback;
-import com.scienjus.smartqq.client.SmartQQClient;
-import com.scienjus.smartqq.model.*;
-
 import java.io.IOException;
 import java.util.List;
+
+import com.scienjus.smartqq.callback.MessageCallback;
+import com.scienjus.smartqq.client.SmartQQClient;
+import com.scienjus.smartqq.model.Category;
+import com.scienjus.smartqq.model.DiscussMessage;
+import com.scienjus.smartqq.model.Friend;
+import com.scienjus.smartqq.model.GroupMessage;
+import com.scienjus.smartqq.model.Message;
 
 /**
  * @author ScienJus
@@ -13,37 +17,66 @@ import java.util.List;
  */
 public class Application {
 
-    public static void main(String[] args) {
-        //创建一个新对象时需要扫描二维码登录，并且传一个处理接收到消息的回调，如果你不需要接收消息，可以传null
-        SmartQQClient client = new SmartQQClient(new MessageCallback() {
-            @Override
-            public void onMessage(Message message) {
-                System.out.println(message.getContent());
-            }
+	public static void main(String[] args) {
+		// 创建一个新对象时需要扫描二维码登录，并且传一个处理接收到消息的回调，如果你不需要接收消息，可以传null
+		SmartQQClient client = new SmartQQClient(new MessageCallback() {
+			@Override
+			public void onMessage(Message message) {
+				System.out.println(message.getUserId());
 
-            @Override
-            public void onGroupMessage(GroupMessage message) {
-                System.out.println(message.getContent());
-            }
+			}
 
-            @Override
-            public void onDiscussMessage(DiscussMessage message) {
-                System.out.println(message.getContent());
-            }
-        });
-        //登录成功后便可以编写你自己的业务逻辑了
-        List<Category> categories = client.getFriendListWithCategory();
-        for (Category category : categories) {
-            System.out.println(category.getName());
-            for (Friend friend : category.getFriends()) {
-                System.out.println("————" + friend.getNickname());
-            }
-        }
-        //使用后调用close方法关闭，你也可以使用try-with-resource创建该对象并自动关闭
-        try {
-            client.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+			@Override
+			public void onGroupMessage(GroupMessage message, SmartQQClient client) {
+				// 你群id 198921355
+				if ((message.getUserId() == 214096648 && message.getContent().contains("老婆"))
+						|| message.getContent().contains("欧根")) {
+					System.out.println(message.getGroupId());
+					int num = (int) (Math.random() * 3 + 1);
+					System.out.println(num);
+					switch (num) {
+					case 1:
+						client.sendMessageToGroup(message.getGroupId(), "Einen schönen Tag.");
+						break;
+					case 2:
+						client.sendMessageToGroup(message.getGroupId(), "哇，吓了我一跳！…啊是！出击！");
+						break;
+					case 3:
+						client.sendMessageToGroup(message.getGroupId(), "提督！莱茵演习吗！…啊什么啊不是啊…没关系，我会加油的！交给我吧！");
+						break;
+					default:
+						break;
+					}
+				}
+
+			}
+
+			@Override
+			public void onDiscussMessage(DiscussMessage message) {
+				System.out.println(message.getContent());
+			}
+		});
+		// 登录成功后便可以编写你自己的业务逻辑了
+		List<Category> categories = client.getFriendListWithCategory();
+		for (Category category : categories) {
+			System.out.println(category.getName());
+			for (Friend friend : category.getFriends()) {
+				System.out.println("————" + friend.getNickname());
+			}
+		}
+
+		TimeCounter tasks = new TimeCounter(client);
+		Thread t = new Thread(tasks);
+		t.start();
+
+		boolean needToClose = false;
+
+		// 使用后调用close方法关闭，你也可以使用try-with-resource创建该对象并自动关闭
+		if (needToClose)
+			try {
+				client.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
 }

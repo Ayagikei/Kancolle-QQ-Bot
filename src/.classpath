@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="main/java"/>
+	<classpathentry kind="src" path="test/java"/>
+	<classpathentry excluding="main/java/|test/java/" kind="src" path=""/>
+	<classpathentry kind="lib" path="D:/fastjson-1.2.39.jar"/>
+	<classpathentry kind="lib" path="D:/Downloads/requests-4.13.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
