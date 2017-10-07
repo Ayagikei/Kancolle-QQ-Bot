@@ -1,6 +1,7 @@
 package com.scienjus.smartqq;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import com.scienjus.smartqq.callback.MessageCallback;
@@ -29,8 +30,17 @@ public class Application {
 			@Override
 			public void onGroupMessage(GroupMessage message, SmartQQClient client) {
 				// 你群id 198921355
-				if ((message.getUserId() == 214096648 && message.getContent().contains("老婆"))
-						|| message.getContent().contains("欧根")) {
+				if (message.getContent().contains("欧根") && message.getContent().contains("Roll")) {
+					RollMachine rm = new RollMachine(client, message);
+					rm.roll(message.getContent());
+				} else if (message.getContent().contains("欧根") && message.getContent().contains("官推")) {
+					TwitterGetter twitterGetter = new TwitterGetter();
+					client.sendMessageToGroup(message.getGroupId(), twitterGetter.getNewestTwitter());
+				} else if (message.getContent().contains("欧根") && message.getContent().contains("查询")
+						&& message.getContent().contains("任务")) {
+					QuestReminder qrer = new QuestReminder();
+					client.sendMessageToGroup(message.getGroupId(), qrer.reminder());
+				} else if ((message.getContent().contains("老婆")) || message.getContent().contains("欧根")) {
 					System.out.println(message.getGroupId());
 					int num = (int) (Math.random() * 3 + 1);
 					System.out.println(num);
@@ -65,9 +75,24 @@ public class Application {
 			}
 		}
 
+		// 不获取登陆前的推特信息
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		// Calendar返回值0~11
+		int month = c.get(Calendar.MONTH) + 1;
+		int date = c.get(Calendar.DATE);
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		int min = c.get(Calendar.MINUTE);
+		int sec = c.get(Calendar.SECOND);
+		TwitterGetter.setLastTime(year, month, date, hour, min, sec);
+
 		TimeCounter tasks = new TimeCounter(client);
 		Thread t = new Thread(tasks);
 		t.start();
+
+		TwitterChecker twitterChecker = new TwitterChecker(client);
+		Thread t2 = new Thread(twitterChecker);
+		t2.start();
 
 		boolean needToClose = false;
 
