@@ -177,7 +177,7 @@ public class TwitterGetter {
 			}
 
 			a = stringBuffer.toString();
-			System.out.println(a);
+			//System.out.println(a);
 
 			int point = a.indexOf("<i class=\"fa fa-clock-o\"></i> 20");
 			int point2 = a.indexOf("年", point);

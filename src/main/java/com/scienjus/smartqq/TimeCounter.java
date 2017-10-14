@@ -7,6 +7,8 @@ import java.util.List;
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.Group;
 
+import net.dongliu.requests.exception.RequestException;
+
 public class TimeCounter implements Runnable {
 
 	private int hour;
@@ -20,7 +22,11 @@ public class TimeCounter implements Runnable {
 
 		hour = hours;
 		this.client = client;
+		try{
 		groupList = client.getGroupList();
+		}catch(Exception e){
+			
+		}
 	}
 
 	private void printMessage(String meg) {
@@ -38,8 +44,15 @@ public class TimeCounter implements Runnable {
 				int hours = d.getHours();
 
 				if (hours != hour) {
+					
+					try{
+					
 					hour = hours;
-					groupList = client.getGroupList();
+
+					
+					}catch(RequestException e){
+						e.printStackTrace();
+					}
 
 					switch (hours) {
 					case 0:
