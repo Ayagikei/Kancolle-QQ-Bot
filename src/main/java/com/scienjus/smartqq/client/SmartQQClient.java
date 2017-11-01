@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import java.nio.charset.StandardCharsets;
 import com.scienjus.smartqq.callback.MessageCallback;
 import com.scienjus.smartqq.constant.ApiURL;
 import com.scienjus.smartqq.model.Category;
@@ -645,14 +646,14 @@ public class SmartQQClient implements Closeable {
 		if (url.getReferer() != null) {
 			request.addHeader("Referer", url.getReferer());
 		}
-		return request.text();
+		return request.text(StandardCharsets.UTF_8); 
 	}
 
 	// 发送post请求
 	private Response<String> post(ApiURL url, JSONObject r) {
 		return session.post(url.getUrl()).addHeader("User-Agent", ApiURL.USER_AGENT)
 				.addHeader("Referer", url.getReferer()).addHeader("Origin", url.getOrigin())
-				.addForm("r", r.toJSONString()).text();
+				.addForm("r", r.toJSONString()).text(StandardCharsets.UTF_8);
 	}
 
 	// 发送post请求，失败时重试
