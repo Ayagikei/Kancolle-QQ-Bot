@@ -36,8 +36,7 @@ public class Application {
 				} else if (message.getContent().contains("欧根") && message.getContent().contains("官推")) {
 					TwitterGetter twitterGetter = new TwitterGetter();
 					client.sendMessageToGroup(message.getGroupId(), twitterGetter.getNewestTwitter());
-				} else if (message.getContent().contains("欧根") && message.getContent().contains("查询")
-						&& message.getContent().contains("任务")) {
+				} else if (message.getContent().contains("欧根") && message.getContent().contains("任务")) {
 					QuestReminder qrer = new QuestReminder();
 					client.sendMessageToGroup(message.getGroupId(), qrer.reminder());
 				} else if ((message.getContent().contains("老婆")) || message.getContent().contains("欧根")) {
