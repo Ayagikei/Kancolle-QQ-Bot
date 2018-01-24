@@ -73,7 +73,7 @@ public class TwitterGetter {
 
 			point2 = a.indexOf("月", point);
 			int month = ((int) (a.charAt(point2 - 1)) - '0');
-			if (a.charAt(point2 - 2) != '日')
+			if (a.charAt(point2 - 2) != '年')
 				month += ((int) (a.charAt(point2 - 2)) - '0') * 10;
 
 			point2 = a.indexOf("日", point);
@@ -130,15 +130,16 @@ public class TwitterGetter {
 				int point4 = a.indexOf("<p>", point3);
 				// System.out.println(a.charAt(point4 + 3));
 
-				int point5 = a.indexOf("<span", point4);
+				int point5 = a.indexOf("</div", point4);
 				String content = a.substring(point4 + 3, point5 - 1);
 
 				// System.out.println(content);
 
-				// content = content.replaceAll("<br />", "");
-				// content = content.replaceAll("<p>", "");
-				// content = content.replaceAll("</p>", "");
+				content = content.replaceAll("<br />", "");
+				content = content.replaceAll("<p>", "");
+				content = content.replaceAll("</p>", "");
 				content = content.replace("</?[a-zA-Z]+[^><]*>", "");
+				content = content.trim();
 
 				int point6;
 				if ((point6 = content.indexOf("<a")) != -1) {
@@ -177,7 +178,7 @@ public class TwitterGetter {
 			}
 
 			a = stringBuffer.toString();
-			//System.out.println(a);
+			// System.out.println(a);
 
 			int point = a.indexOf("<i class=\"fa fa-clock-o\"></i> 20");
 			int point2 = a.indexOf("年", point);
@@ -186,7 +187,7 @@ public class TwitterGetter {
 
 			point2 = a.indexOf("月", point);
 			int month = ((int) (a.charAt(point2 - 1)) - '0');
-			if (a.charAt(point2 - 2) != '日')
+			if (a.charAt(point2 - 2) != '年')
 				month += ((int) (a.charAt(point2 - 2)) - '0') * 10;
 
 			point2 = a.indexOf("日", point);
@@ -208,13 +209,16 @@ public class TwitterGetter {
 			int point4 = a.indexOf("<p>", point3);
 			// System.out.println(a.charAt(point4 + 3));
 
-			int point5 = a.indexOf("<span", point4);
+			int point5 = a.indexOf("</div", point4);
 			String content = a.substring(point4 + 3, point5 - 1);
 
 			// System.out.println(content);
 
 			content = content.replaceAll("<br />", "");
+			content = content.replaceAll("<p>", "");
+			content = content.replaceAll("</p>", "");
 			content = content.replace("</?[a-zA-Z]+[^><]*>", "");
+			content = content.trim();
 
 			int point6;
 			if ((point6 = content.indexOf("<a")) != -1) {
