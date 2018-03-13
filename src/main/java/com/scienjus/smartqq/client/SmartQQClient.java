@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +17,6 @@ import org.apache.log4j.Logger;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import java.nio.charset.StandardCharsets;
 import com.scienjus.smartqq.callback.MessageCallback;
 import com.scienjus.smartqq.constant.ApiURL;
 import com.scienjus.smartqq.model.Category;
@@ -263,7 +263,7 @@ public class SmartQQClient implements Closeable {
 			JSONObject message = array.getJSONObject(i);
 			String type = message.getString("poll_type");
 			if ("message".equals(type)) {
-				callback.onMessage(new Message(message.getJSONObject("value")));
+				callback.onMessage(new Message(message.getJSONObject("value")), this);
 			} else if ("group_message".equals(type)) {
 				callback.onGroupMessage(new GroupMessage(message.getJSONObject("value")), this);
 			} else if ("discu_message".equals(type)) {
@@ -646,7 +646,7 @@ public class SmartQQClient implements Closeable {
 		if (url.getReferer() != null) {
 			request.addHeader("Referer", url.getReferer());
 		}
-		return request.text(StandardCharsets.UTF_8); 
+		return request.text(StandardCharsets.UTF_8);
 	}
 
 	// 发送post请求

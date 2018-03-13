@@ -1,4 +1,4 @@
-package com.scienjus.smartqq;
+package com.scienjus.smartqq.kancolle;
 
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.GroupMessage;

@@ -18,7 +18,7 @@ public interface MessageCallback {
 	 * 
 	 * @param message
 	 */
-	void onMessage(Message message);
+	void onMessage(Message message, SmartQQClient client);
 
 	/**
 	 * 收到群消息后的回调

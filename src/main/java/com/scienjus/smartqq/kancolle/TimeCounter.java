@@ -1,4 +1,4 @@
-package com.scienjus.smartqq;
+package com.scienjus.smartqq.kancolle;
 
 import java.util.ArrayList;
 import java.util.Date;

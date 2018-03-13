@@ -1,4 +1,4 @@
-package com.scienjus.smartqq;
+package com.scienjus.smartqq.kancolle;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -22,15 +22,19 @@ public class Application {
 		// 创建一个新对象时需要扫描二维码登录，并且传一个处理接收到消息的回调，如果你不需要接收消息，可以传null
 		SmartQQClient client = new SmartQQClient(new MessageCallback() {
 			@Override
-			public void onMessage(Message message) {
+			public void onMessage(Message message, SmartQQClient client) {
 				System.out.println(message.getUserId());
-
+				if (message.getContent().contains("刷新群列表")) {
+					client.getGroupList();
+				}
 			}
 
 			@Override
 			public void onGroupMessage(GroupMessage message, SmartQQClient client) {
-				// 你群id 198921355
-				if (message.getContent().contains("欧根") && message.getContent().contains("Roll")) {
+
+				String msg = message.getContent().toLowerCase();
+
+				if (message.getContent().contains("欧根") && msg.contains("Roll")) {
 					RollMachine rm = new RollMachine(client, message);
 					rm.roll(message.getContent());
 				} else if (message.getContent().contains("欧根") && message.getContent().contains("官推")) {
@@ -64,6 +68,7 @@ public class Application {
 			public void onDiscussMessage(DiscussMessage message) {
 				System.out.println(message.getContent());
 			}
+
 		});
 		// 登录成功后便可以编写你自己的业务逻辑了
 		List<Category> categories = client.getFriendListWithCategory();

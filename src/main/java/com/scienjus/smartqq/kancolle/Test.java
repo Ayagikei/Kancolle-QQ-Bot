@@ -1,4 +1,4 @@
-package com.scienjus.smartqq;
+package com.scienjus.smartqq.kancolle;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

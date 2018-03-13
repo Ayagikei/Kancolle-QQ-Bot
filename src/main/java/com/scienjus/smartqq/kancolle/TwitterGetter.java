@@ -1,4 +1,4 @@
-package com.scienjus.smartqq;
+package com.scienjus.smartqq.kancolle;
 
 import java.io.BufferedReader;
 import java.io.IOException;
