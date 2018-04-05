@@ -34,7 +34,7 @@ public class Application {
 
 				String msg = message.getContent().toLowerCase();
 
-				if (message.getContent().contains("欧根") && msg.contains("Roll")) {
+				if (message.getContent().contains("欧根") && msg.contains("roll")) {
 					RollMachine rm = new RollMachine(client, message);
 					rm.roll(message.getContent());
 				} else if (message.getContent().contains("欧根") && message.getContent().contains("官推")) {
