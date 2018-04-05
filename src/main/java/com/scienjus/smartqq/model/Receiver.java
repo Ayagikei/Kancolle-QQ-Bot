@@ -1,4 +1,4 @@
-package com.scienjus.smartqq.kancolle;
+package com.scienjus.smartqq.model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,16 +9,6 @@ import java.util.Map;
 
 import com.scienjus.smartqq.callback.MessageCallback;
 import com.scienjus.smartqq.client.SmartQQClient;
-import com.scienjus.smartqq.model.Discuss;
-import com.scienjus.smartqq.model.DiscussInfo;
-import com.scienjus.smartqq.model.DiscussMessage;
-import com.scienjus.smartqq.model.DiscussUser;
-import com.scienjus.smartqq.model.Friend;
-import com.scienjus.smartqq.model.Group;
-import com.scienjus.smartqq.model.GroupInfo;
-import com.scienjus.smartqq.model.GroupMessage;
-import com.scienjus.smartqq.model.GroupUser;
-import com.scienjus.smartqq.model.Message;
 
 /**
  * 消息接收器 - Receiver （经小规模测试可用，但不保证可用性）
@@ -45,7 +35,7 @@ public class Receiver {
 	private static SmartQQClient client = new SmartQQClient(new MessageCallback() {
 
 		@Override
-		public void onMessage(Message msg) {
+		public void onMessage(Message msg, SmartQQClient client) {
 			if (!working) {
 				return;
 			}
