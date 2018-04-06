@@ -27,6 +27,9 @@ public class Application {
 				if (message.getContent().contains("刷新群列表")) {
 					client.getGroupList();
 				}
+
+				XMLResolver xml = new XMLResolver();
+				client.sendMessageToFriend(message.getUserId(),xml.getByTag("flush"));
 			}
 
 			@Override
@@ -47,19 +50,11 @@ public class Application {
 					System.out.println(message.getGroupId());
 					int num = (int) (Math.random() * 3 + 1);
 					System.out.println(num);
-					switch (num) {
-					case 1:
-						client.sendMessageToGroup(message.getGroupId(), "Einen schönen Tag.");
-						break;
-					case 2:
-						client.sendMessageToGroup(message.getGroupId(), "哇，吓了我一跳！…啊是！出击！");
-						break;
-					case 3:
-						client.sendMessageToGroup(message.getGroupId(), "提督！莱茵演习吗！…啊什么啊不是啊…没关系，我会加油的！交给我吧！");
-						break;
-					default:
-						break;
-					}
+
+					XMLResolver xml = new XMLResolver();
+					client.sendMessageToGroup(message.getGroupId(), xml.getCall(num));
+
+
 				}
 
 			}

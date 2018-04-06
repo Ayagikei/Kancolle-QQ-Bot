@@ -156,9 +156,11 @@ public class TwitterGetter {
 				return null;
 
 		} catch (StringIndexOutOfBoundsException e) {
-
+			e.printStackTrace();
 		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		return null;
@@ -227,14 +229,18 @@ public class TwitterGetter {
 				content = content.replaceAll(temp2, "");
 			}
 
-			sTime = "舰队的情报啊，嗯，稍等哦，哦，哦哦，原来如此呐～ \n" + sTime;
+			XMLResolver xml = new XMLResolver();
+			sTime = xml.getByTag("inf") + sTime;
 
 			System.out.println(content);
 			return sTime + content;
 
 		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
 		} catch (StringIndexOutOfBoundsException e) {
+			e.printStackTrace();
 		}
 
 		return null;

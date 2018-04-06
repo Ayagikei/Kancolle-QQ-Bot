@@ -32,7 +32,8 @@ public class RollMachine {
 				// System.out.println(e);
 				if (!e.equals(""))
 					if (Integer.valueOf(e) > 100 || Integer.valueOf(e) <= 0) {
-						printMessage("提督，你输入的数字有不在范围内的。（1~100）");
+						XMLResolver xml = new XMLResolver();
+						printMessage(xml.getByTag("roll"));
 						return;
 					} else {
 						goodNum++;

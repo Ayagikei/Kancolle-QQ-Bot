@@ -4,63 +4,88 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
+
 public class Test {
 
-	/**
-	 * @param args
-	 * @throws Exception
-	 */
-	public static void main(String[] args) throws Exception {
-		// 例如比较当前时间和早上6：00
-		// String nowTime = new SimpleDateFormat("HH:MM").format(new Date());
-		// System.out.println("当前时间为："+nowTime);
-		// System.out.println("与当日06：00相比");
-		// 不获取登陆前的推特信息
-		Date d = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-		Calendar c = Calendar.getInstance();
-		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
-		int date = c.get(Calendar.DATE);
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		int min = c.get(Calendar.MINUTE);
-		int sec = c.get(Calendar.SECOND);
-		System.out.println(year + "年" + month + "月" + date + "日" + hour + min + sec);
 
-		int i = DateCompare("20180211 05:0:2", "20170101 0:0:0", "yyyyMMdd HH:mm:ss");
-		switch (i) {
-		case 0:
-			System.out.println("两个时间相等");
-			break;
-		case 1:
-			System.out.println("当前时间晚于06:00");
-			break;
-		case -1:
-			System.out.println("当前时间早于06:00");
-			break;
-		default:
-			break;
+
+	/**
+	 * 读取下xml文档,获得document对象。
+	 * 本文为xml连载第一篇，以下代码可以直接运行，结尾附上源码下载地址。
+	 */
+		public static void main(String[] args) throws DocumentException
+		{
+			XMLResolver xml = new XMLResolver();
+			xml.getCall(1);
+			/*
+			SAXReader reader = new SAXReader();
+			Document document = reader.read(new File("stringKancolle.xml"));
+
+			/**
+			 * 节点对象的操作方法
+
+
+			//获取文档根节点
+			Element root = document.getRootElement();
+			//输出根标签的名字
+			System.out.println(root.getName());
+
+
+			//获取根节点下面的所有子节点（不包过子节点的子节点）
+			List<Element> list = root.elements() ;
+			//遍历List的方法
+			for (Element e:list){
+				//System.out.println(e.getName());
+
+			}
+
+
+			//获得指定节点下面的子节点
+			Element contactElem = root.element("character");//首先要知道自己要操作的节点。
+			List<Element> contactList = contactElem.elements();
+			for (Element e:contactList){
+				System.out.println(e.getName());
+			}
+
+
+			//调用下面获取子节点的递归函数。
+			getChildNodes(root);
+
+
+			//获得当前标签下指定名称的第一个子标签
+			Element conElem = root.element("contact");
+			//System.out.println(conElem.getName());
+
+
+			//获得更深层次的标签（一层一层的获取）
+			Element nameElem = root.element("contact").element("name");
+			//System.out.println(nameElem.getName());
+			*/
 		}
 
-	}
+		//递归查询节点函数,输出节点名称
+		private static void  getChildNodes(Element elem){
+			//System.out.println(elem.getName());
+			Iterator<Node> it=    elem.nodeIterator();
+			while (it.hasNext()){
+				Node node = it.next();
+				if (node instanceof Element){
+					Element e1 = (Element)node;
+					getChildNodes(e1);
+				}
 
-	/**
-	 * 根据时间类型比较时间大小
-	 * 
-	 * @param source
-	 * @param traget
-	 * @param type
-	 *            "YYYY-MM-DD" "yyyyMMdd HH:mm:ss" 类型可自定义
-	 * @param 传递时间的对比格式
-	 * @return 0 ：source和traget时间相同 1 ：source比traget时间大 -1：source比traget时间小
-	 * @throws Exception
-	 */
-	public static int DateCompare(String source, String traget, String type) throws Exception {
-		int ret = 2;
-		SimpleDateFormat format = new SimpleDateFormat(type);
-		Date sourcedate = format.parse(source);
-		Date tragetdate = format.parse(traget);
-		ret = sourcedate.compareTo(tragetdate);
-		return ret;
-	}
+			}
+		}
+
+
+
 }

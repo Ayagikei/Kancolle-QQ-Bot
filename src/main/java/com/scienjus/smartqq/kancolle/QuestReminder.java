@@ -32,11 +32,13 @@ public class QuestReminder {
 
 	public String reminder() {
 
+		XMLResolver xml = new XMLResolver();
+
 		if (fiveBjQuest())
-			return "Guten Morgen! 提督，今天有5补给舰任务。";
+			return xml.getByTag("quest1");
 		else if (threeCvQuest())
-			return "Guten Morgen! 提督，今天有3空母任务。";
+			return xml.getByTag("quest2");
 		else
-			return "Guten Morgen! 提督，今天没有日期尾数特殊任务。";
+			return xml.getByTag("quest3");
 	}
 }
