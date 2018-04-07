@@ -56,21 +56,23 @@ public class Application {
 
 				String msg = message.getContent().toLowerCase();
 				XMLResolver xml = new XMLResolver();
+				String at = xml.getByTag("at");
+				String at2 = xml.getByTag("at2");
 
-				if (message.getContent().contains("欧根") && msg.contains("roll")) {
+				if (message.getContent().contains(at) && msg.contains("roll")) {
 					RollMachine rm = new RollMachine(client, message);
 					rm.roll(message.getContent());
-				} else if (message.getContent().contains("欧根") && message.getContent().contains("官推")) {
+				} else if (message.getContent().contains(at) && message.getContent().contains("官推")) {
 					TwitterGetter twitterGetter = new TwitterGetter();
 					client.sendMessageToGroup(message.getGroupId(), twitterGetter.getNewestTwitter());
-				} else if (message.getContent().contains("欧根") && message.getContent().contains("任务")) {
+				} else if (message.getContent().contains(at) && message.getContent().contains("任务")) {
 					QuestReminder qrer = new QuestReminder();
 					client.sendMessageToGroup(message.getGroupId(), qrer.reminder());
-				}  else if(message.getContent().contains("欧根") && message.getContent().contains("cosplay列表")){
+				}  else if(message.getContent().contains(at) && message.getContent().contains("cosplay列表")){
 					System.out.println("cosplay");
 					client.sendMessageToGroup(message.getGroupId(),xml.showCharacter());
 				}
-				else if(message.getContent().contains("欧根") && message.getContent().contains("cosplay")){
+				else if(message.getContent().contains(at) && message.getContent().contains("cosplay")){
 					String[] res = message.getContent().split("[^\\d]");
 
 					for (String e : res) {
@@ -83,7 +85,7 @@ public class Application {
 
 					client.sendMessageToGroup(message.getGroupId(),"好的，提督！");
 				}
-				else if ((message.getContent().contains("老婆")) || message.getContent().contains("欧根")) {
+				else if ((message.getContent().contains(at2)) || message.getContent().contains(at)) {
 					System.out.println(message.getGroupId());
 					int num = (int) (Math.random() * 3 + 1);
 					System.out.println(num);
