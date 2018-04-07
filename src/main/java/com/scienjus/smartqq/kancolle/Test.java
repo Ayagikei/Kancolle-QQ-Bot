@@ -25,7 +25,11 @@ public class Test {
 		public static void main(String[] args) throws DocumentException
 		{
 			XMLResolver xml = new XMLResolver();
-			xml.getCall(1);
+			System.out.println(xml.showCharacter());
+			xml.changeCharacter("002");
+
+			XMLResolver xml2 = new XMLResolver();
+			System.out.println(xml2.getTime(3));
 			/*
 			SAXReader reader = new SAXReader();
 			Document document = reader.read(new File("stringKancolle.xml"));

@@ -21,21 +21,41 @@ public class Application {
 	public static void main(String[] args) {
 		// 创建一个新对象时需要扫描二维码登录，并且传一个处理接收到消息的回调，如果你不需要接收消息，可以传null
 		SmartQQClient client = new SmartQQClient(new MessageCallback() {
+
 			@Override
 			public void onMessage(Message message, SmartQQClient client) {
+				XMLResolver xml = new XMLResolver();
 				System.out.println(message.getUserId());
 				if (message.getContent().contains("刷新群列表")) {
 					client.getGroupList();
+					client.sendMessageToFriend(message.getUserId(),xml.getByTag("flush"));
+				} else if(message.getContent().contains("cosplay列表")){
+					System.out.println("cosplay");
+					client.sendMessageToFriend(message.getUserId(),xml.showCharacter());
+				}
+				else if(message.getContent().contains("cosplay")){
+					String[] res = message.getContent().split("[^\\d]");
+
+					for (String e : res) {
+
+						// System.out.println(e);
+						if (!e.equals(""))
+							xml.changeCharacter(e);
+						else continue;
+					}
+
+					client.sendMessageToFriend(message.getUserId(),"好的，提督！");
 				}
 
-				XMLResolver xml = new XMLResolver();
-				client.sendMessageToFriend(message.getUserId(),xml.getByTag("flush"));
+
+
 			}
 
 			@Override
 			public void onGroupMessage(GroupMessage message, SmartQQClient client) {
 
 				String msg = message.getContent().toLowerCase();
+				XMLResolver xml = new XMLResolver();
 
 				if (message.getContent().contains("欧根") && msg.contains("roll")) {
 					RollMachine rm = new RollMachine(client, message);
@@ -46,12 +66,29 @@ public class Application {
 				} else if (message.getContent().contains("欧根") && message.getContent().contains("任务")) {
 					QuestReminder qrer = new QuestReminder();
 					client.sendMessageToGroup(message.getGroupId(), qrer.reminder());
-				} else if ((message.getContent().contains("老婆")) || message.getContent().contains("欧根")) {
+				}  else if(message.getContent().contains("欧根") && message.getContent().contains("cosplay列表")){
+					System.out.println("cosplay");
+					client.sendMessageToGroup(message.getGroupId(),xml.showCharacter());
+				}
+				else if(message.getContent().contains("欧根") && message.getContent().contains("cosplay")){
+					String[] res = message.getContent().split("[^\\d]");
+
+					for (String e : res) {
+
+						// System.out.println(e);
+						if (!e.equals(""))
+							xml.changeCharacter(e);
+						else continue;
+					}
+
+					client.sendMessageToGroup(message.getGroupId(),"好的，提督！");
+				}
+				else if ((message.getContent().contains("老婆")) || message.getContent().contains("欧根")) {
 					System.out.println(message.getGroupId());
 					int num = (int) (Math.random() * 3 + 1);
 					System.out.println(num);
 
-					XMLResolver xml = new XMLResolver();
+
 					client.sendMessageToGroup(message.getGroupId(), xml.getCall(num));
 
 
