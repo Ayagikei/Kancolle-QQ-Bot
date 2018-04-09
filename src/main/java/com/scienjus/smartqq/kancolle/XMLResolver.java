@@ -37,8 +37,9 @@ public class XMLResolver {
         if(!isInited) {
             id = document.getRootElement().element("role").getText();
             isInited = true;
+            System.out.println("————XML解析模块启动成功");
         }
-        System.out.println(id);
+
     }
 
     public String getCall(int num){
@@ -103,13 +104,12 @@ public class XMLResolver {
                 if (e.attributeValue("id").equals(id))
                     crt = e;
             }else continue;
-            System.out.println(e.attributeValue("id"));
         }
 
         //当找不到所需要的ID
         if(crt == null) {
             id = "001";
-            System.out.println("getCharacter 返回 null");
+            System.out.println("————不存在所调用的COSPLAY角色");
             return null;
         }
 
@@ -133,7 +133,7 @@ public class XMLResolver {
 
 
     public boolean changeCharacter(String ctr){
-        System.out.println("ChangeCharacter接收" + ctr);
+        System.out.println("————尝试COSPLAY" + ctr);
 
        id = ctr;
        if(getCharacter() == null)

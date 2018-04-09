@@ -1,14 +1,14 @@
 package com.scienjus.smartqq.kancolle;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class QuestReminder {
 
 	private boolean threeCvQuest() {
-		Date d = new Date();
-		int day = d.getDate();
 
-		System.out.println("day" + day);
+		Calendar c = Calendar.getInstance();
+		int day = c.get(Calendar.DATE);
 
 		int lastNum = day % 10;
 		if (lastNum == 3 || lastNum == 7 || lastNum == 0)

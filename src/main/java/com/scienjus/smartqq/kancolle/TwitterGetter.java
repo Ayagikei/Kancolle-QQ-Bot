@@ -63,7 +63,7 @@ public class TwitterGetter {
 			}
 
 			a = stringBuffer.toString();
-			// System.out.println(a);
+
 
 			int point = a.indexOf("<i class=\"fa fa-clock-o\"></i> 20");
 			int point2 = a.indexOf("年", point);
@@ -91,12 +91,11 @@ public class TwitterGetter {
 
 			boolean isNewer;
 
-			// String nowTime = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(new
-			// Date());
 
-			System.out.println("Time" + year + month + date + " " + hour + ":" + min + ":" + sec);
-			System.out.println(
-					"LastTime" + lastYear + lastMonth + lastDate + " " + lastHour + ":" + lastMin + ":" + lastSec);
+
+//			System.out.println("Time" + year + month + date + " " + hour + ":" + min + ":" + sec);
+//			System.out.println(
+//					"LastTime" + lastYear + lastMonth + lastDate + " " + lastHour + ":" + lastMin + ":" + lastSec);
 
 			String time1 = String.format("%02d%02d%02d %02d:%02d:%02d", year, month, date, hour, min, sec);
 			String time2 = String.format("%02d%02d%02d %02d:%02d:%02d", lastYear, lastMonth, lastDate, lastHour,
@@ -108,12 +107,7 @@ public class TwitterGetter {
 			else
 				isNewer = false;
 
-			/*
-			 * if (year > lastYear || month > lastMonth || date > lastDate) { isNewer =
-			 * true; } else if (hour > lastHour) { isNewer = true; } else if (hour ==
-			 * lastHour && min > lastMin) { isNewer = true; } else if (hour == lastHour &&
-			 * min == lastMin && sec > lastSec) { isNewer = true; } else isNewer = false;
-			 */
+
 
 			if (isNewer) {
 
@@ -125,15 +119,15 @@ public class TwitterGetter {
 				lastSec = sec;
 
 				String sTime = year + "年" + month + "月" + date + "日   " + hour + ":" + min + ":" + sec + "\r\n";
-				System.out.println(year + "年" + month + "月" + date + "日   " + hour + ":" + min + ":" + sec);
+				//System.out.println(year + "年" + month + "月" + date + "日   " + hour + ":" + min + ":" + sec);
 
 				int point4 = a.indexOf("<p>", point3);
-				// System.out.println(a.charAt(point4 + 3));
+
 
 				int point5 = a.indexOf("</div", point4);
 				String content = a.substring(point4 + 3, point5 - 1);
 
-				// System.out.println(content);
+
 
 				content = content.replaceAll("<br />", "");
 				content = content.replaceAll("<p>", "");
@@ -145,11 +139,11 @@ public class TwitterGetter {
 				if ((point6 = content.indexOf("<a")) != -1) {
 					int point7 = content.indexOf("</a>");
 					String temp2 = content.substring(point6, point7 + 4);
-					// System.out.println("这是temp2" + temp2 + "结束");
+
 					content = content.replaceAll(temp2, "");
 				}
 
-				System.out.println(content);
+
 				return sTime + content;
 
 			} else
@@ -206,7 +200,7 @@ public class TwitterGetter {
 			int sec = ((int) (a.charAt(point3 + 2)) - '0') + ((int) (a.charAt(point3 + 1)) - '0') * 10;
 
 			String sTime = year + "年" + month + "月" + date + "日   " + hour + ":" + min + ":" + sec + "\r\n";
-			System.out.println(year + "年" + month + "月" + date + "日   " + hour + ":" + min + ":" + sec);
+			//System.out.println(year + "年" + month + "月" + date + "日   " + hour + ":" + min + ":" + sec);
 
 			int point4 = a.indexOf("<p>", point3);
 			// System.out.println(a.charAt(point4 + 3));
@@ -232,7 +226,7 @@ public class TwitterGetter {
 			XMLResolver xml = new XMLResolver();
 			sTime = xml.getByTag("inf") + sTime;
 
-			System.out.println(content);
+			//System.out.println(content);
 			return sTime + content;
 
 		} catch (MalformedURLException e) {
