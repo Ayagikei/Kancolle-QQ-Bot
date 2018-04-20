@@ -124,27 +124,45 @@ public class TwitterGetter {
 				int point4 = a.indexOf("<p>", point3);
 
 
-				int point5 = a.indexOf("</div", point4);
-				String content = a.substring(point4 + 3, point5 - 1);
+                int point5 = a.indexOf("<span class=\"hashtag", point4);
+                String content = a.substring(point4 + 3, point5 - 1);
+
+                // System.out.println(content);
 
 
+                content = content.replaceAll("<br />", "");
+                content = content.replaceAll("<p>", "");
+                content = content.replaceAll("</p>", "");
 
-				content = content.replaceAll("<br />", "");
-				content = content.replaceAll("<p>", "");
-				content = content.replaceAll("</p>", "");
-				content = content.replace("</?[a-zA-Z]+[^><]*>", "");
-				content = content.trim();
+                String aLink = null;
+                //如果有链接的话
+                int urlPointerStart = content.indexOf("<a href=\"");
+                if(urlPointerStart != -1){
 
-				int point6;
-				if ((point6 = content.indexOf("<a")) != -1) {
-					int point7 = content.indexOf("</a>");
-					String temp2 = content.substring(point6, point7 + 4);
+                    int urlPointer = content.indexOf("\"",urlPointerStart);
+                    int urlPointerEnd = content.indexOf("\"",urlPointer+1);
 
-					content = content.replaceAll(temp2, "");
-				}
+                    if(urlPointer != -1 && urlPointerEnd !=-1) {
+                        aLink = content.substring(urlPointer+1, urlPointerEnd);
 
+                    }
+                }
 
-				return sTime + content;
+                content = content.replace("</?[a-zA-Z]+[^><]*>", "");
+                content = content.trim();
+
+                int point6;
+                if ((point6 = content.indexOf("<a")) != -1) {
+                    int point7 = content.indexOf("</a>");
+                    String temp2 = content.substring(point6, point7 + 4);
+                    content = content.replaceAll(temp2, "");
+                }
+
+                XMLResolver xml = Application.getXML();
+                sTime = xml.getByTag("inf") + "\r\n" + sTime;
+
+                //System.out.println(content);
+                return sTime + content + aLink;
 
 			} else
 				return null;
@@ -205,14 +223,32 @@ public class TwitterGetter {
 			int point4 = a.indexOf("<p>", point3);
 			// System.out.println(a.charAt(point4 + 3));
 
-			int point5 = a.indexOf("</div", point4);
+			int point5 = a.indexOf("<span class=\"hashtag", point4);
 			String content = a.substring(point4 + 3, point5 - 1);
 
 			// System.out.println(content);
 
+
 			content = content.replaceAll("<br />", "");
 			content = content.replaceAll("<p>", "");
 			content = content.replaceAll("</p>", "");
+
+            String aLink = null;
+            //如果有链接的话
+            int urlPointerStart = content.indexOf("<a href=\"");
+            if(urlPointerStart != -1){
+
+                int urlPointer = content.indexOf("\"",urlPointerStart);
+                int urlPointerEnd = content.indexOf("\"",urlPointer+1);
+
+                if(urlPointer != -1 && urlPointerEnd !=-1) {
+                    aLink = content.substring(urlPointer+1, urlPointerEnd);
+
+                }
+            }
+
+
+
 			content = content.replace("</?[a-zA-Z]+[^><]*>", "");
 			content = content.trim();
 
@@ -223,18 +259,21 @@ public class TwitterGetter {
 				content = content.replaceAll(temp2, "");
 			}
 
-			XMLResolver xml = new XMLResolver();
-			sTime = xml.getByTag("inf") + sTime;
+			XMLResolver xml = Application.getXML();
+            sTime = xml.getByTag("inf") + "\r\n" + sTime;
 
 			//System.out.println(content);
-			return sTime + content;
+			return sTime + content + aLink;
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+            e.getCause();
 		} catch (IOException e) {
 			e.printStackTrace();
+			e.getCause();
 		} catch (StringIndexOutOfBoundsException e) {
 			e.printStackTrace();
+            e.getCause();
 		}
 
 		return null;

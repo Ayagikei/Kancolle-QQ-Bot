@@ -42,6 +42,18 @@
             <version>1.6.1</version>
         </dependency>
 
+        <!-- Quartz  http://www.quartz-scheduler.org/downloads/ -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

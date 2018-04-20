@@ -5,83 +5,52 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
+
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.Group;
 
 import net.dongliu.requests.exception.RequestException;
 
-public class TimeCounter implements Runnable {
+public class TimeCounter {
 
 	private int hour;
-	private SmartQQClient client;
+	private static SmartQQClient client;
 	private static List<Group> groupList = new ArrayList<>();
 
 	public TimeCounter(SmartQQClient client) {
 		// TODO 自动生成的构造函数存根
-		Date d = new Date();
-		int hours = d.getHours();
-
-		hour = hours;
 		this.client = client;
 		try{
 		groupList = client.getGroupList();
-		}catch(Exception e){
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void printMessage(String meg) {
+
+	public static void printMessage(String meg) {
 		for (Group e : groupList)
 			client.sendMessageToGroup(e.getId(), meg);
 	}
 
-	public void run() {
-		// TODO Auto-generated method stub
-		while (true) {
-			try {
-				Thread.sleep(1000); // 睡眠1000后再次执行任务，模拟定时任务
+	public void go() throws Exception {
 
-				Calendar c = Calendar.getInstance();
-				//Date d = new Date();
-				//int hours = d.getHours();
-				int hours = c.get(Calendar.HOUR_OF_DAY);
+		SchedulerFactory sf = new StdSchedulerFactory();
+		Scheduler sched = sf.getScheduler();
 
-				if (hours != hour) {
-					
-					try{
-					
-					hour = hours;
+		JobDetail job = newJob(HourChimeJob.class).withIdentity("job1", "group1").build();
+		CronTrigger trigger = newTrigger().withIdentity("trigger1", "group1").withSchedule(cronSchedule("0 0 * * * ?")).build();
+		Date ft = sched.scheduleJob(job, trigger);
 
-					
-					}catch(RequestException e){
-						e.printStackTrace();
-					}
-
-					XMLResolver xml = new XMLResolver();
-
-					switch (hours) {
-
-
-					case 8:
-						printMessage(xml.getTime(8));
-						QuestReminder qrer = new QuestReminder();
-						printMessage(qrer.reminder());
-						break;
-
-					default:
-						printMessage(xml.getTime(hours));
-						break;
-
-
-					}
-				}
-
-				// System.out.println("时间：" + hours); // 执行任务
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		sched.start();
+		System.out.println("———— 报时模块启动成功");
 	}
-
 }

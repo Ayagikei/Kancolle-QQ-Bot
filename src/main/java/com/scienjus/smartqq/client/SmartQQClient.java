@@ -1,16 +1,9 @@
 package com.scienjus.smartqq.client;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 
@@ -148,6 +141,7 @@ public class SmartQQClient implements Closeable {
 			}
 		}
 		LOGGER.info("二维码已保存在 " + filePath + " 文件中，请打开手机QQ并扫描二维码");
+
 	}
 
 	// 用于生成ptqrtoken的哈希函数
@@ -767,4 +761,5 @@ public class SmartQQClient implements Closeable {
 			this.client.close();
 		}
 	}
+
 }

@@ -50,6 +50,7 @@ public class Application {
 					client.sendMessageToFriend(message.getUserId(),"好的，提督！");
 				}else if(message.getContent().contains("xml")){
 					xml = new XMLResolver();
+					client.sendMessageToFriend(message.getUserId(),"好的，提督！");
 				}
 
 
@@ -64,7 +65,7 @@ public class Application {
 				return;
 
 				String msg = message.getContent().toLowerCase();
-				xml = new XMLResolver();
+
 				String at = xml.getByTag("at");
 				String at2 = xml.getByTag("at2");
 
@@ -109,6 +110,7 @@ public class Application {
 			}
 
 		});
+
 		// 登录成功后便可以编写你自己的业务逻辑了
 		List<Category> categories = client.getFriendListWithCategory();
 		for (Category category : categories) {
@@ -131,14 +133,20 @@ public class Application {
 		TwitterGetter.setLastTime(year, month, date, hour, min, sec);
 
 		TimeCounter tasks = new TimeCounter(client);
-		Thread t = new Thread(tasks);
-		t.start();
-		System.out.println("———— 报时模块启动成功");
+		try {
+			tasks.go();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("———— 报时模块启动失败");
+		}
+
 
 		TwitterChecker twitterChecker = new TwitterChecker(client);
 		Thread t2 = new Thread(twitterChecker);
 		t2.start();
 		System.out.println("———— 推特检测模块启动成功");
+
+        xml = new XMLResolver();
 
 		boolean needToClose = false;
 
@@ -154,4 +162,6 @@ public class Application {
 	public static XMLResolver getXML(){
 		return xml;
 	}
+
+
 }
