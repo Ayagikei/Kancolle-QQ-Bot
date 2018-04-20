@@ -162,6 +162,9 @@ public class TwitterGetter {
                 sTime = xml.getByTag("inf") + "\r\n" + sTime;
 
                 //System.out.println(content);
+                if(aLink == null)
+                    aLink="";
+
                 return sTime + content + aLink;
 
 			} else
@@ -261,6 +264,9 @@ public class TwitterGetter {
 
 			XMLResolver xml = Application.getXML();
             sTime = xml.getByTag("inf") + "\r\n" + sTime;
+
+            if(aLink == null)
+                aLink="";
 
 			//System.out.println(content);
 			return sTime + content + aLink;
