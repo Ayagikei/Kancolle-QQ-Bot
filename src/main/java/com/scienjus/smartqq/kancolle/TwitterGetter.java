@@ -134,7 +134,7 @@ public class TwitterGetter {
                 content = content.replaceAll("<p>", "");
                 content = content.replaceAll("</p>", "");
 
-                String aLink = null;
+                String aLink = "";
                 //如果有链接的话
                 int urlPointerStart = content.indexOf("<a href=\"");
                 if(urlPointerStart != -1){
@@ -147,6 +147,18 @@ public class TwitterGetter {
 
                     }
                 }
+
+				String aImg = "";
+				//如果有链接的话
+				int ImgPointerStart = content.indexOf("<img src=");
+				if(ImgPointerStart != -1){
+
+					int ImgPointer = content.indexOf("\"",ImgPointerStart);
+					int ImgPointerEnd = content.indexOf("\"",ImgPointer+1);
+
+					if(ImgPointer != -1 && ImgPointerEnd !=-1)
+						aImg = "\r\n图片链接：" + content.substring(ImgPointer + 1, ImgPointerEnd);
+				}
 
                 content = content.replace("</?[a-zA-Z]+[^><]*>", "");
                 content = content.trim();
@@ -161,11 +173,7 @@ public class TwitterGetter {
                 XMLResolver xml = Application.getXML();
                 sTime = xml.getByTag("inf") + "\r\n" + sTime;
 
-                //System.out.println(content);
-                if(aLink == null)
-                    aLink="";
-
-                return sTime + content + aLink;
+                return sTime + content + aLink + aImg;
 
 			} else
 				return null;
@@ -188,7 +196,7 @@ public class TwitterGetter {
 		try {
 			String url = "https://t.kcwiki.moe/";
 			BufferedReader in = new BufferedReader(
-					new InputStreamReader(new URL(url).openConnection().getInputStream(), "utf-8"));// GB2312可以根据需要替换成要读取网页的编码
+					new InputStreamReader(new URL(url).openConnection().getInputStream(), "utf-8"));
 			while ((temp = in.readLine()) != null) {
 				stringBuffer.append(temp + '\n');
 
@@ -236,7 +244,7 @@ public class TwitterGetter {
 			content = content.replaceAll("<p>", "");
 			content = content.replaceAll("</p>", "");
 
-            String aLink = null;
+            String aLink = "";
             //如果有链接的话
             int urlPointerStart = content.indexOf("<a href=\"");
             if(urlPointerStart != -1){
@@ -246,9 +254,20 @@ public class TwitterGetter {
 
                 if(urlPointer != -1 && urlPointerEnd !=-1) {
                     aLink = content.substring(urlPointer+1, urlPointerEnd);
-
                 }
             }
+
+			String aImg = "";
+			//如果有链接的话
+			int ImgPointerStart = content.indexOf("<img src=");
+			if(ImgPointerStart != -1){
+
+				int ImgPointer = content.indexOf("\"",ImgPointerStart);
+				int ImgPointerEnd = content.indexOf("\"",ImgPointer+1);
+
+				if(ImgPointer != -1 && ImgPointerEnd !=-1)
+					aImg = "\r\n图片链接：" + content.substring(ImgPointer + 1, ImgPointerEnd);
+			}
 
 
 
@@ -265,11 +284,8 @@ public class TwitterGetter {
 			XMLResolver xml = Application.getXML();
             sTime = xml.getByTag("inf") + "\r\n" + sTime;
 
-            if(aLink == null)
-                aLink="";
 
-			//System.out.println(content);
-			return sTime + content + aLink;
+			return sTime + content + aLink + aImg;
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

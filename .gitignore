@@ -6,3 +6,6 @@ out/artifacts/smartqq_jar2/smartqq.jar
 out/artifacts/smartqq_jar/smartqq.jar
 *.class
 *.log
+*.zip
+*.bat
+*.jar

@@ -19,6 +19,7 @@ import com.scienjus.smartqq.model.Message;
 public class Application {
 
 	private static XMLResolver xml;
+	private static Rereader rereader;
 
 	public static void main(String[] args) {
 		// 创建一个新对象时需要扫描二维码登录，并且传一个处理接收到消息的回调，如果你不需要接收消息，可以传null
@@ -69,7 +70,12 @@ public class Application {
 				String at = xml.getByTag("at");
 				String at2 = xml.getByTag("at2");
 
-				if (message.getContent().contains(at) && msg.contains("roll")) {
+				//复读
+				if(!message.getContent().contains(at) && !message.getContent().contains(at2)){
+					if(rereader.reread(msg))
+						client.sendMessageToGroup(message.getGroupId(),message.getContent());
+				}
+				else if (message.getContent().contains(at) && msg.contains("roll")) {
 					RollMachine rm = new RollMachine(client, message);
 					rm.roll(message.getContent());
 				} else if (message.getContent().contains(at) && msg.contains("官推")) {
@@ -147,6 +153,7 @@ public class Application {
 		System.out.println("———— 推特检测模块启动成功");
 
         xml = new XMLResolver();
+        rereader = new Rereader();
 
 		boolean needToClose = false;
 
