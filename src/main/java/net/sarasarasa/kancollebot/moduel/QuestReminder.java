@@ -1,7 +1,15 @@
-package com.scienjus.smartqq.kancolle;
+package net.sarasarasa.kancollebot.moduel;
+
+import net.sarasarasa.kancollebot.tool.XMLResolver;
 
 import java.util.Calendar;
 import java.util.Date;
+
+/**
+ * @author AyagiKei
+ * @url https://github.com/Ayagikei
+ *
+ **/
 
 public class QuestReminder {
 
@@ -19,8 +27,8 @@ public class QuestReminder {
 	}
 
 	private boolean fiveBjQuest() {
-		Date d = new Date();
-		int day = d.getDate();
+		Calendar c = Calendar.getInstance();
+		int day = c.get(Calendar.DATE);
 
 		int lastNum = day % 10;
 		if (lastNum == 2 || lastNum == 8)

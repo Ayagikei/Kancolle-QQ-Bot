@@ -2,38 +2,31 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.scienjus</groupId>
-    <artifactId>smartqq</artifactId>
+    <groupId>net.sarasarasa</groupId>
+    <artifactId>QQKancolleBot</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>smartqq</name>
+    <name>QQKancolleBot</name>
     <url>http://maven.apache.org</url>
-    
+
+    <repositories>
+        <repository>
+            <id>scienjus-mvn-repo</id>
+            <url>https://raw.github.com/ScienJus/maven/snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <!-- Properties -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.dongliu</groupId>
-            <artifactId>requests</artifactId>
-            <version>2.1.5</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
         <dependency>
@@ -60,6 +53,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.scienjus</groupId>
+            <artifactId>smartqq</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -76,5 +75,7 @@
             </plugin>
         </plugins>
     </build>
+
+
 
 </project>

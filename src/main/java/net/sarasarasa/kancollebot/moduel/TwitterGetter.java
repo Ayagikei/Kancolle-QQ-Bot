@@ -1,4 +1,7 @@
-package com.scienjus.smartqq.kancolle;
+package net.sarasarasa.kancollebot.moduel;
+
+import net.sarasarasa.kancollebot.main.Application;
+import net.sarasarasa.kancollebot.tool.XMLResolver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +11,12 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+/**
+ * @author AyagiKei
+ * @url https://github.com/Ayagikei
+ *
+ **/
 
 public class TwitterGetter {
 

@@ -1,4 +1,4 @@
-package com.scienjus.smartqq.kancolle;
+package net.sarasarasa.kancollebot.moduel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +18,12 @@ import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.Group;
 
 import net.dongliu.requests.exception.RequestException;
+
+/**
+ * @author AyagiKei
+ * @url https://github.com/Ayagikei
+ *
+ **/
 
 public class TimeCounter {
 

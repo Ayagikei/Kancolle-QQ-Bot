@@ -1,9 +1,14 @@
-package com.scienjus.smartqq.kancolle;
+package net.sarasarasa.kancollebot.moduel;
 
 import com.scienjus.smartqq.client.SmartQQClient;
 
 import java.util.LinkedList;
-import java.util.Queue;
+
+/**
+ * @author AyagiKei
+ * @url https://github.com/Ayagikei
+ *
+ **/
 
 public class Rereader {
     //队列
@@ -12,7 +17,7 @@ public class Rereader {
     private LinkedList<String> qMessage = new LinkedList<String>();
     private LinkedList<String> qRereaderMessage = new LinkedList<String>();
 
-    Rereader(){
+    public Rereader(){
         System.out.println("——复读模块启动成功");
     }
 

@@ -1,4 +1,4 @@
-package com.scienjus.smartqq.kancolle;
+package net.sarasarasa.kancollebot.tool;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,6 +14,12 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
+/**
+ * @author AyagiKei
+ * @url https://github.com/Ayagikei
+ *
+ **/
+
 public class XMLResolver {
 
 
@@ -24,7 +30,7 @@ public class XMLResolver {
     Document document;
 
 
-    XMLResolver()  {
+    public XMLResolver()  {
 
         reader = new SAXReader();
 

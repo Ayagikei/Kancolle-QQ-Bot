@@ -1,7 +1,14 @@
-package com.scienjus.smartqq.kancolle;
+package net.sarasarasa.kancollebot.moduel;
 
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.GroupMessage;
+import net.sarasarasa.kancollebot.tool.XMLResolver;
+
+/**
+ * @author AyagiKei
+ * @url https://github.com/Ayagikei
+ *
+ **/
 
 public class RollMachine {
 	private SmartQQClient client;
