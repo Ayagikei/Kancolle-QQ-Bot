@@ -26,103 +26,99 @@ public class Application {
 
 	public static void main(String[] args) {
 		// 创建一个新对象时需要扫描二维码登录，并且传一个处理接收到消息的回调，如果你不需要接收消息，可以传null
-		client = new SmartQQClient(new MessageCallback() {
 
-			@Override
-			public void onMessage(Message message) {
+			client = new SmartQQClient(new MessageCallback() {
+
+				@Override
+				public void onMessage(Message message) {
 
 
+					if (message.getContent().contains("刷新群列表")) {
+						client.getGroupList();
+						client.sendMessageToFriend(message.getUserId(), xml.getByTag("flush"));
+					} else if (message.getContent().contains("cosplay列表")) {
+						System.out.println("cosplay");
+						client.sendMessageToFriend(message.getUserId(), xml.showCharacter());
+					} else if (message.getContent().contains("cosplay")) {
+						String[] res = message.getContent().split("[^\\d]");
 
-				if (message.getContent().contains("刷新群列表")) {
-					client.getGroupList();
-					client.sendMessageToFriend(message.getUserId(),xml.getByTag("flush"));
-				} else if(message.getContent().contains("cosplay列表")){
-					System.out.println("cosplay");
-					client.sendMessageToFriend(message.getUserId(),xml.showCharacter());
-				}
-				else if(message.getContent().contains("cosplay")){
-					String[] res = message.getContent().split("[^\\d]");
+						for (String e : res) {
 
-					for (String e : res) {
+							// System.out.println(e);
+							if (!e.equals(""))
+								xml.changeCharacter(e);
+							else continue;
+						}
 
-						// System.out.println(e);
-						if (!e.equals(""))
-							xml.changeCharacter(e);
-						else continue;
+						client.sendMessageToFriend(message.getUserId(), "好的，提督！");
+					} else if (message.getContent().contains("xml")) {
+						xml = new XMLResolver();
+						client.sendMessageToFriend(message.getUserId(), "好的，提督！");
 					}
 
-					client.sendMessageToFriend(message.getUserId(),"好的，提督！");
-				}else if(message.getContent().contains("xml")){
-					xml = new XMLResolver();
-					client.sendMessageToFriend(message.getUserId(),"好的，提督！");
+
 				}
 
+				@Override
+				public void onGroupMessage(GroupMessage message) {
 
+					//（不完全）避免自我调用
+					if (String.valueOf(message.getUserId()) == client.getAccountInfo().getUin())
+						return;
 
-			}
+					String msg = message.getContent().toLowerCase();
 
-			@Override
-			public void onGroupMessage(GroupMessage message) {
+					String at = xml.getByTag("at");
+					String at2 = xml.getByTag("at2");
 
-				//（不完全）避免自我调用
-				if(String.valueOf(message.getUserId())== client.getAccountInfo().getUin())
-				return;
+					//复读
+					if (!message.getContent().contains(at) && !message.getContent().contains(at2)) {
+						if (rereader.reread(msg))
+							client.sendMessageToGroup(message.getGroupId(), message.getContent());
+					} else if (message.getContent().contains(at) && msg.contains("roll")) {
+						RollMachine rm = new RollMachine(client, message);
+						rm.roll(message.getContent());
+					} else if (message.getContent().contains(at) && msg.contains("官推")) {
+						TwitterGetter twitterGetter = new TwitterGetter();
+						client.sendMessageToGroup(message.getGroupId(), twitterGetter.getNewestTwitter());
+					} else if (message.getContent().contains(at) && msg.contains("任务")) {
+						QuestReminder qrer = new QuestReminder();
+						client.sendMessageToGroup(message.getGroupId(), qrer.reminder());
+					} else if (message.getContent().contains(at) && msg.contains("cosplay列表")) {
+						client.sendMessageToGroup(message.getGroupId(), xml.showCharacter());
+					} else if (message.getContent().contains(at) && msg.contains("cosplay")) {
+						String[] res = message.getContent().split("[^\\d]");
 
-				String msg = message.getContent().toLowerCase();
+						for (String e : res) {
 
-				String at = xml.getByTag("at");
-				String at2 = xml.getByTag("at2");
+							// System.out.println(e);
+							if (!e.equals(""))
+								xml.changeCharacter(e);
+							else continue;
+						}
 
-				//复读
-				if(!message.getContent().contains(at) && !message.getContent().contains(at2)){
-					if(rereader.reread(msg))
-						client.sendMessageToGroup(message.getGroupId(),message.getContent());
-				}
-				else if (message.getContent().contains(at) && msg.contains("roll")) {
-					RollMachine rm = new RollMachine(client, message);
-					rm.roll(message.getContent());
-				} else if (message.getContent().contains(at) && msg.contains("官推")) {
-					TwitterGetter twitterGetter = new TwitterGetter();
-					client.sendMessageToGroup(message.getGroupId(), twitterGetter.getNewestTwitter());
-				} else if (message.getContent().contains(at) && msg.contains("任务")) {
-					QuestReminder qrer = new QuestReminder();
-					client.sendMessageToGroup(message.getGroupId(), qrer.reminder());
-				}  else if(message.getContent().contains(at) && msg.contains("cosplay列表")){
-					client.sendMessageToGroup(message.getGroupId(),xml.showCharacter());
-				}
-				else if(message.getContent().contains(at) && msg.contains("cosplay")){
-					String[] res = message.getContent().split("[^\\d]");
+						client.sendMessageToGroup(message.getGroupId(), "好的，提督！");
+					} else if ((message.getContent().contains(at2)) || message.getContent().contains(at)) {
 
-					for (String e : res) {
+						int num = (int) (Math.random() * 3 + 1);
 
-						// System.out.println(e);
-						if (!e.equals(""))
-							xml.changeCharacter(e);
-						else continue;
+						client.sendMessageToGroup(message.getGroupId(), xml.getCall(num));
+
 					}
 
-					client.sendMessageToGroup(message.getGroupId(),"好的，提督！");
-				}
-				else if ((message.getContent().contains(at2)) || message.getContent().contains(at)) {
-
-					int num = (int) (Math.random() * 3 + 1);
-
-					client.sendMessageToGroup(message.getGroupId(), xml.getCall(num));
-
 				}
 
-			}
+				@Override
+				public void onDiscussMessage(DiscussMessage message) {
+					//接收讨论组信息
+				}
 
-			@Override
-			public void onDiscussMessage(DiscussMessage message) {
-				//接收讨论组信息
-			}
+			});
 
-		});
 
 		// 登录成功后便可以编写你自己的业务逻辑了
 		List<Category> categories = client.getFriendListWithCategory();
-		for (Category category : categories) {
+		for(Category category : categories) {
 			System.out.println(category.getName());
 			for (Friend friend : category.getFriends()) {
 				System.out.println("————" + friend.getNickname());

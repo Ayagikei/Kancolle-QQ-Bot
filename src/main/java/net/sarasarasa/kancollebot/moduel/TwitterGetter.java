@@ -310,4 +310,17 @@ public class TwitterGetter {
 		return null;
 	}
 
+	public String twitterAnalyze(String content){
+		StringBuilder str = new StringBuilder();
+		if(content.contains("メンテナンス")) {
+			str.append("维护 ");
+			//if(content)
+		}
+
+		if(content.contains("アップデート"))
+			str.append("更新 ");
+
+		return str.toString();
+	}
+
 }

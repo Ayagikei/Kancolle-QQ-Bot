@@ -43,7 +43,7 @@ public class XMLResolver {
         if(!isInited) {
             id = document.getRootElement().element("role").getText();
             isInited = true;
-            System.out.println("————XML解析模块启动成功");
+            System.out.println("————　XML解析功能启动成功");
         }
 
     }

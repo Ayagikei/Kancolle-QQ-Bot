@@ -18,7 +18,7 @@ public class Rereader {
     private LinkedList<String> qRereaderMessage = new LinkedList<String>();
 
     public Rereader(){
-        System.out.println("——复读模块启动成功");
+        System.out.println("————　复读模块启动成功");
     }
 
     Rereader(SmartQQClient client){
