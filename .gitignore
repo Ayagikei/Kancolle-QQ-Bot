@@ -8,3 +8,4 @@ out/artifacts/smartqq_jar/smartqq.jar
 *.log
 *.zip
 *.bat
+out/

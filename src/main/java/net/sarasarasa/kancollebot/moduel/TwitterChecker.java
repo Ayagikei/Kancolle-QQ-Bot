@@ -37,8 +37,8 @@ public class TwitterChecker implements Runnable {
 
 				TwitterGetter twitterGetter = new TwitterGetter();
 				String twitter;
-				if ((twitter = twitterGetter.getSyncTwitter()) != null)
-					printMessage(Application.getXML().getByTag("inf") + twitter);
+				if ((twitter = twitterGetter.getTwitter(true)) != null)
+					printMessage(twitter);
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

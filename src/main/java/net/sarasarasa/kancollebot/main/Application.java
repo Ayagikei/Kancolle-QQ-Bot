@@ -80,7 +80,7 @@ public class Application {
 						rm.roll(message.getContent());
 					} else if (message.getContent().contains(at) && msg.contains("官推")) {
 						TwitterGetter twitterGetter = new TwitterGetter();
-						client.sendMessageToGroup(message.getGroupId(), twitterGetter.getNewestTwitter());
+						client.sendMessageToGroup(message.getGroupId(), twitterGetter.getTwitter(false));
 					} else if (message.getContent().contains(at) && msg.contains("任务")) {
 						QuestReminder qrer = new QuestReminder();
 						client.sendMessageToGroup(message.getGroupId(), qrer.reminder());
